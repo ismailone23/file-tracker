@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# File Tracking System
 
-## Getting Started
+A full-stack ready frontend application built with Next.js (App Router) + TypeScript for managing a multi-stage file workflow.
 
-First, run the development server:
+Files move across workflow stages (Reception -> Officer Desk -> Manager Review -> Final Records), and authorized officers can:
+
+- Approve & Forward (adds signature + timestamp)
+- Forward Only (skip signature)
+- View file history and current stage status
+
+## Tech Stack
+
+- Next.js 16 (App Router)
+- TypeScript
+- Tailwind CSS v4
+- shadcn/ui components
+- React Context API + custom hooks
+
+## Project Setup
+
+### 1. Initialize project (already done in this workspace)
+
+```bash
+npx create-next-app@latest file-tracker --typescript --tailwind --app --use-npm
+cd file-tracker
+```
+
+### 2. Install UI dependencies
+
+```bash
+npx shadcn@latest init -d
+npx shadcn@latest add button badge card table dialog input select textarea -y
+```
+
+### 3. Install packages (if needed)
+
+```bash
+npm install
+```
+
+### 4. Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start local development server
+- `npm run lint` - Run ESLint
+- `npm run build` - Build production app
+- `npm run start` - Run production server
 
-## Learn More
+## Folder Structure
 
-To learn more about Next.js, take a look at the following resources:
+```text
+.
+|-- app/
+|   |-- dashboard/page.tsx
+|   |-- stages/[stage]/page.tsx
+|   |-- layout.tsx
+|   |-- page.tsx
+|   `-- providers.tsx
+|-- components/
+|   |-- shared/
+|   `-- ui/
+|-- context/
+|   `-- FileContext.tsx
+|-- hooks/
+|   `-- useFiles.ts
+|-- lib/
+|   |-- mock-data.ts
+|   `-- utils.ts
+|-- styles/
+|   `-- animations.css
+`-- types/
+	`-- file.ts
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Data Model
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Each file uses the `TrackedFile` model:
 
-## Deploy on Vercel
+- `id`
+- `title`
+- `description`
+- `currentStage`
+- `assignedTo`
+- `status`
+- `history[]` (who acted, when, from/to stage, signature)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Implemented Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Multi-stage workflow (4 stages)
+- Stage-wise file table view
+- Status badges (`Pending`, `Approved`, `Forwarded`)
+- Signature modal dialog for approval
+- Forward-only action
+- Officer role simulation (switch active officer)
+- Stage sidebar with live file counts
+- Search/filter within stage tables
+- Reusable components and modular logic
+
+## Notes
+
+- The project currently uses mock data (`lib/mock-data.ts`) and no backend.
+- Context and hooks are structured so a backend/API layer can be plugged in later.
+- Final stage blocks forwarding actions by design.
+

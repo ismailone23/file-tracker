@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local agent instruction files
+AGENTS.md
+CLAUDE.md
+agents.md
+claude.md
