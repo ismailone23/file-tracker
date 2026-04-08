@@ -1,111 +1,157 @@
-# File Tracking System
+# 📁 File Tracker
 
-A full-stack ready frontend application built with Next.js (App Router) + TypeScript for managing a multi-stage file workflow.
+A workflow management system built with **Next.js (App Router)** and **TypeScript** to track files as they move through multiple organizational stages.
 
-Files move across workflow stages (Reception -> Officer Desk -> Manager Review -> Final Records), and authorized officers can:
+Designed to simulate real office flow — where files are received, processed, reviewed, and archived — with clear tracking, accountability, and history.
 
-- Approve & Forward (adds signature + timestamp)
-- Forward Only (skip signature)
-- View file history and current stage status
+---
 
-## Tech Stack
+## 🚀 What This App Does
 
-- Next.js 16 (App Router)
-- TypeScript
-- Tailwind CSS v4
-- shadcn/ui components
-- React Context API + custom hooks
+* Track files across multiple stages:
 
-## Project Setup
+  * Reception → Officer Desk → Manager Review → Final Records
+* Allow officers to:
 
-### 1. Initialize project (already done in this workspace)
+  * ✅ Approve & forward (with signature + timestamp)
+  * ➡️ Forward without approval
+* Maintain full file history (who did what, and when)
+* Show real-time status and stage distribution
+
+---
+
+## 🧱 Tech Stack
+
+* **Framework:** Next.js (App Router)
+* **Language:** TypeScript
+* **Styling:** Tailwind CSS
+* **UI Components:** shadcn/ui
+* **State Management:** React Context API + custom hooks
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone & Install
 
 ```bash
-npx create-next-app@latest file-tracker --typescript --tailwind --app --use-npm
+git clone <your-repo-url>
 cd file-tracker
-```
-
-### 2. Install UI dependencies
-
-```bash
-npx shadcn@latest init -d
-npx shadcn@latest add button badge card table dialog input select textarea -y
-```
-
-### 3. Install packages (if needed)
-
-```bash
 npm install
 ```
 
-### 4. Run development server
+### 2. Run the App
 
 ```bash
 npm run dev
 ```
 
-Open http://localhost:3000.
+Open: http://localhost:3000
 
-## Scripts
+---
 
-- `npm run dev` - Start local development server
-- `npm run lint` - Run ESLint
-- `npm run build` - Build production app
-- `npm run start` - Run production server
-
-## Folder Structure
+## 📂 Project Structure
 
 ```text
-.
-|-- app/
-|   |-- dashboard/page.tsx
-|   |-- stages/[stage]/page.tsx
-|   |-- layout.tsx
-|   |-- page.tsx
-|   `-- providers.tsx
-|-- components/
-|   |-- shared/
-|   `-- ui/
-|-- context/
-|   `-- FileContext.tsx
-|-- hooks/
-|   `-- useFiles.ts
-|-- lib/
-|   |-- mock-data.ts
-|   `-- utils.ts
-|-- styles/
-|   `-- animations.css
-`-- types/
-	`-- file.ts
+app/                → Routes & layouts
+components/         → UI + shared components
+context/            → Global state (FileContext)
+hooks/              → Custom hooks (useFiles)
+lib/                → Utilities & mock data
+styles/             → Extra styling (animations)
+types/              → TypeScript models
 ```
 
-## Data Model
+---
 
-Each file uses the `TrackedFile` model:
+## 🧾 Data Model (Simplified)
 
-- `id`
-- `title`
-- `description`
-- `currentStage`
-- `assignedTo`
-- `status`
-- `history[]` (who acted, when, from/to stage, signature)
+Each file follows this structure:
 
-## Implemented Features
+```ts
+type TrackedFile = {
+  id: string;
+  title: string;
+  description: string;
+  currentStage: string;
+  assignedTo: string;
+  status: "Pending" | "Approved" | "Forwarded";
+  history: {
+    actor: string;
+    action: string;
+    from: string;
+    to: string;
+    timestamp: string;
+    signature?: string;
+  }[];
+};
+```
 
-- Multi-stage workflow (4 stages)
-- Stage-wise file table view
-- Status badges (`Pending`, `Approved`, `Forwarded`)
-- Signature modal dialog for approval
-- Forward-only action
-- Officer role simulation (switch active officer)
-- Stage sidebar with live file counts
-- Search/filter within stage tables
-- Reusable components and modular logic
+---
 
-## Notes
+## ✨ Features
 
-- The project currently uses mock data (`lib/mock-data.ts`) and no backend.
-- Context and hooks are structured so a backend/API layer can be plugged in later.
-- Final stage blocks forwarding actions by design.
+* 📌 Multi-stage workflow system
+* 📊 Stage-based file tables
+* 🏷️ Status indicators (Pending / Approved / Forwarded)
+* ✍️ Approval with signature modal
+* 🔄 Forward-only option
+* 👤 Officer switching (role simulation)
+* 📈 Sidebar with live counts per stage
+* 🔍 Search & filtering
+* ♻️ Reusable, modular architecture
 
+---
+
+## ⚠️ Current Limitations
+
+* Uses **mock data only** (no database)
+* No authentication system yet
+* State resets on refresh
+
+---
+
+## 🔮 Future Improvements
+
+* Backend integration (Node.js / Express / Prisma)
+* Persistent database (PostgreSQL / MongoDB)
+* Authentication & role-based access
+* Real-time updates (WebSockets)
+* Audit logs & reporting
+
+---
+
+## 🧠 Design Philosophy
+
+This project is structured to be:
+
+* Easy to extend into a full-stack system
+* Cleanly separated (UI, logic, data)
+* Beginner-friendly but scalable
+
+---
+
+## 🛠 Scripts
+
+```bash
+npm run dev     # start development
+npm run build   # production build
+npm run start   # run production server
+npm run lint    # lint code
+```
+
+---
+
+## 📌 Notes
+
+* Final stage is intentionally locked (no further forwarding)
+* Context API is used for simplicity — can be replaced with Zustand/Redux if needed
+* UI is fully customizable via shadcn + Tailwind
+
+---
+
+## 👨‍💻 Author
+
+Built as a workflow simulation project for learning and scaling into real-world systems.
+
+---
