@@ -55,3 +55,4 @@ claude.md
 .claude
 .agents/*
 .claude/*
+skills-lock.json
