@@ -6,7 +6,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import { useLanguage } from "@/context/LanguageContext";
 import { useFiles } from "@/hooks/useFiles";
@@ -15,8 +14,15 @@ import { StageSidebar } from "./stage-sidebar";
 
 export function DashboardShell({ children }: { children: ReactNode }) {
   const { t } = useLanguage();
-  const { officers, activeOfficer, setActiveOfficer, addFile, stats } =
-    useFiles();
+  const {
+    officers,
+    activeOfficer,
+    feedback,
+    clearFeedback,
+    setActiveOfficer,
+    addFile,
+    stats,
+  } = useFiles();
 
   const handleOfficerChange = (value: string | null) => {
     if (!value) {
@@ -38,7 +44,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           </p>
           <Select value={activeOfficer.id} onValueChange={handleOfficerChange}>
             <SelectTrigger className="mt-3 w-full">
-              <SelectValue placeholder={t("selectOfficer")} />
+              <span className="truncate">{activeOfficer.name}</span>
             </SelectTrigger>
             <SelectContent>
               {officers.map((officer) => (
@@ -55,6 +61,20 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               onAddFile={addFile}
             />
           </div>
+
+          {feedback ? (
+            <button
+              type="button"
+              onClick={clearFeedback}
+              className={`mt-3 w-full rounded-lg border px-3 py-2 text-left text-xs ${
+                feedback.type === "success"
+                  ? "border-emerald-300 bg-emerald-50 text-emerald-800"
+                  : "border-red-300 bg-red-50 text-red-800"
+              }`}
+            >
+              {feedback.message}
+            </button>
+          ) : null}
         </div>
 
         <StageSidebar counts={stats} />
