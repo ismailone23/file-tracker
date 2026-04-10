@@ -8,9 +8,12 @@
   ],
   "scripts": {
     "dev": "concurrently -n web,api -c cyan,green \"npm run dev -w @file-tracker/web\" \"npm run dev -w @file-tracker/api\"",
+    "dev:desktop": "concurrently -n web,desktop -c cyan,magenta \"npm run dev:web\" \"npm run dev -w @file-tracker/desktop\"",
     "dev:web": "npm run dev -w @file-tracker/web",
     "dev:api": "npm run dev -w @file-tracker/api",
     "build": "npm run build -w @file-tracker/web && npm run build -w @file-tracker/api",
+    "build:desktop": "npm run pack -w @file-tracker/desktop",
+    "dist:desktop": "npm run dist -w @file-tracker/desktop",
     "lint": "npm run lint -w @file-tracker/web && npm run lint -w @file-tracker/api",
     "db:generate": "npm run db:generate -w @file-tracker/db",
     "db:migrate": "npm run db:push -w @file-tracker/db",

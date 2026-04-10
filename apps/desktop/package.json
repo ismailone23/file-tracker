@@ -1,0 +1,57 @@
+{
+  "name": "@file-tracker/desktop",
+  "version": "1.0.0",
+  "description": "File Tracker desktop app",
+  "productName": "File Tracker",
+  "main": "index.js",
+  "scripts": {
+    "dev": "electron . --url=http://localhost:3000",
+    "start": "electron .",
+    "build:web": "npm run build -w @file-tracker/web",
+    "prepare:web": "npm run build:web && node scripts/prepare-web.js",
+    "pack": "npm run prepare:web && electron-builder --dir",
+    "dist": "npm run prepare:web && electron-builder"
+  },
+  "keywords": [
+    "file-tracker",
+    "electron",
+    "desktop",
+    "workflow"
+  ],
+  "author": "file-tracker",
+  "license": "ISC",
+  "type": "commonjs",
+  "build": {
+    "appId": "com.filetracker.desktop",
+    "productName": "File Tracker",
+    "artifactName": "File-Tracker-${version}-${arch}.${ext}",
+    "copyright": "Copyright (c) 2026 file-tracker",
+    "electronVersion": "41.2.0",
+    "npmRebuild": false,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "index.js",
+      "preload.js",
+      "web-dist/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "../web/app/favicon.ico",
+      "executableName": "File Tracker",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "artifactName": "File-Tracker-Setup-${version}.${ext}",
+      "shortcutName": "File Tracker",
+      "uninstallDisplayName": "File Tracker",
+      "createDesktopShortcut": "always"
+    }
+  },
+  "devDependencies": {
+    "electron": "^41.2.0",
+    "electron-builder": "^26.8.1"
+  }
+}
